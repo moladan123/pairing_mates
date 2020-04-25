@@ -6,7 +6,12 @@ admin.initializeApp();
 // Get a database reference to our posts
 const db = admin.database();
 
-exports.removeOldGames = functions.pubsub.schedule('every 30 minutes').onRun((context) => {
+exports.removeGames = functions.pubsub.schedule('every 30 minutes').onRun((context) => {
+    removeOldGames();
+    removeFinishedGames();
+});
+
+function removeOldGames() {
     const date = new Date(Date.now() - 30 * 60 * 1000)  // 30 minutes ago
     const oldGamesRef = db.collection('games').where('timeCreated', '<', date)
     oldGamesRef.get().then((snapshot: any[]) => {
@@ -16,12 +21,26 @@ exports.removeOldGames = functions.pubsub.schedule('every 30 minutes').onRun((co
             doc.ref.delete();
             removedGames += doc.id + "\n";
         });
-        console.log("Removed Games: " + removedGames);
+        console.log("Removed Old Games: " + removedGames);
     }).catch((err: any) => {
         console.log('Error getting documents', err);
     });
-    return null;
-});
+}
+
+function removeFinishedGames() {
+    const oldGamesRef = db.collection('games').where('status', '<', 'Finished')
+    oldGamesRef.get().then((snapshot: any[]) => {
+        let removedGames:string = "";
+        snapshot.forEach((doc) => {
+            console.log(doc.id, '=>', doc.data());
+            doc.ref.delete();
+            removedGames += doc.id + "\n";
+        });
+        console.log("Removed Finished Games: " + removedGames);
+    }).catch((err: any) => {
+        console.log('Error getting documents', err);
+    });
+}
 
 
 // // Start writing Firebase Functions
