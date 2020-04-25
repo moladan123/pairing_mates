@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Caitlin">
+    <title>Pairing Mates: Choose Your Ships</title>
+
+    <!-- update the version number as needed -->
+
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+</head>
+
+<body>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+
+    <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-firestore.js"></script>
+
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyDyzev87Bk6FESwHVQEDyqmQfYKFWkE-kg",
+            authDomain: "pairingmates.firebaseapp.com",
+            databaseURL: "https://pairingmates.firebaseio.com",
+            projectId: "pairingmates",
+            storageBucket: "pairingmates.appspot.com",
+            messagingSenderId: "957422010140",
+            appId: "1:957422010140:web:822dcc0a21af3cb7b004d9"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        async function getMarker() {
+            const snapshot = await firebase.firestore().collection('games').get()
+            return snapshot.docs.map(doc => doc.data());
+        }
+
+        function writeData() {
+
+            var roomCode = document.getElementById("roomCode").value;
+            var username = document.getElementById("username").value;
+
+            console.log(getMarker());
+            //if the room code has already been created
+            if (checkCode("ggrsfc") == true) {
+                console.log("No");
+                firebase.firestore().collection("games").doc("ggrsfc").collection("users").add({
+                    user: username
+                })
+
+                //if the room code is not in the database - not created
+            } else {
+                console.log("Maybe");
+                let roomCode = codeGenerator();
+                firebase.firestore().collection("games").doc("ggrsfc").collection("users").set({
+                    user: username
+                })
+            }
+        }
+
+        //randomly generates a code
+        function codeGenerator() {
+            let r = Math.random().toString(36).substring(5);
+            return r;
+        }
+
+        function checkCode(code) {
+
+            console.log(code);
+            let codeRef = firebase.firestore().collection("games").doc(code);
+            codeRef.get().then(function(doc) {
+                if (doc.exists) {
+                    console.log("a")
+                    return true;
+                } else {
+                    return false;
+                }
+            }).catch(function(error) {
+                console.log("Error getting document:", error);
+            });
+        }
+    </script>
+
+    <div class="container">
+        <h1>Welcome to Pairing Mates</h1>
+        <h2>
+            ROOM CODE
+        </h2>
+        <input type="text" placeholder="Type room code here" id="roomCode">
+        <h2>
+            USERNAME:
+        </h2>
+        <input type="text" placeholder="Type user name here" id="username">
+        <button id="join" onclick="writeData()">JOIN A GAME</button>
+        <button onclick="" id="create">CREATE A GAME</button>
+    </div>
+</body>
+
+</html>
