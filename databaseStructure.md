@@ -10,11 +10,11 @@ Document ID: 6 digit alphanumeric caps (This is the game code players will use t
 * timeCreated: TimeStamp (At what time the game has been created)
 * numRoundsPlayed: Number (Number of rounds played)
 * numPlayers: Number (Number of players in game)
-	* host: String (device ID of host)
-	* players: Array
-		* player: Map
-			* id: String (Device ID of player)
-			* nickname: String (Displayed name of player)
-			* score: Number (Total score of player)
-			* votes: Number (Total votes recived by player)
-			* response: String (Player Response to prompt)
+* host: String (device ID of host)
+* players: Array
+	* player: Map
+		* id: String (Device ID of player)
+		* nickname: String (Displayed name of player)
+		* score: Number (Total score of player)
+		* votes: Number (Total votes recived by player)
+		* response: String (Player Response to prompt)
