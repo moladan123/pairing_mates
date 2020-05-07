@@ -79,29 +79,36 @@
       };
       // Initialize Firebase
       firebase.initializeApp(firebaseConfig);
+      test();
+      async function test(){
+        let code = await initializeGame("useridTest");
+        console.log(code);
+        console.log("test");
+      }
 
       async function initializeGame(userID){
         let gameCode = Date.now().toString(36).toUpperCase();
         gameCode = gameCode.slice(gameCode.length - 5);
         let gameData = {
-            "state": "WaitingForPlayers",
-            "timeCreated": new Date(),
-            "numRoundsPlayed": 0,
-            "numPlayers": 0,
-            "host": userID,
-            "players": []
+          "state": "WaitingForPlayers",
+          "timeCreated": new Date(),
+          "numRoundsPlayed": 0,
+          "numPlayers": 0,
+          "host": userID,
+          "players": []
         };
-        await firebase.firestore().collection('games').doc(gameCode).set(gameData)
+
+        return await firebase.firestore().collection('games').doc(gameCode).set(gameData)
         .then(() => {
-            console.log("Document successfully written");
-            return gameCode;
+          console.log("Document successfully written");
+          return gameCode;
         })
         .catch((error) => {
-            console.error("Error writing document: ", error);
+          console.error("Error writing document: ", error);
+          throw error;
         });
       }
     </script>
-
   </body>
   
 </html>
