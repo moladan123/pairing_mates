@@ -79,12 +79,12 @@
       };
       // Initialize Firebase
       firebase.initializeApp(firebaseConfig);
-      test();
-      async function test(){
-        let code = await initializeGame("useridTest");
-        console.log(code);
-        console.log("test");
-      }
+      // test();
+      // async function test(){
+      //   let code = await initializeGame("useridTest");
+      //   console.log(code);
+      //   console.log("test");
+      // }
 
       async function initializeGame(userID){
         let gameCode = Date.now().toString(36).toUpperCase();
