@@ -61,53 +61,15 @@
     <!--<script defer src="/__/firebase/7.14.1/firebase-messaging.js"></script>-->
     <!--<script defer src="/__/firebase/7.14.1/firebase-storage.js"></script>-->
     <!-- initialize the SDK after all desired features are loaded -->
-    <!--<script defer src="/__/firebase/init.js"></script> -->
+    
     <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-firestore.js"></script>
 
     <script src="/__/firebase/7.14.1/firebase-firestore.js"></script>
+    <!--<script defer src="/__/firebase/init.js"></script>-->
 
-    <script>
-      var firebaseConfig = {
-        apiKey: "AIzaSyDyzev87Bk6FESwHVQEDyqmQfYKFWkE-kg",
-        authDomain: "pairingmates.firebaseapp.com",
-        databaseURL: "https://pairingmates.firebaseio.com",
-        projectId: "pairingmates",
-        storageBucket: "pairingmates.appspot.com",
-        messagingSenderId: "957422010140",
-        appId: "1:957422010140:web:822dcc0a21af3cb7b004d9"
-      };
-      // Initialize Firebase
-      firebase.initializeApp(firebaseConfig);
-      // test();
-      // async function test(){
-      //   let code = await initializeGame("useridTest");
-      //   console.log(code);
-      //   console.log("test");
-      // }
-
-      async function initializeGame(userID){
-        let gameCode = Date.now().toString(36).toUpperCase();
-        gameCode = gameCode.slice(gameCode.length - 5);
-        let gameData = {
-          "state": "WaitingForPlayers",
-          "timeCreated": new Date(),
-          "numRoundsPlayed": 0,
-          "numPlayers": 0,
-          "host": userID,
-          "players": []
-        };
-
-        return await firebase.firestore().collection('games').doc(gameCode).set(gameData)
-        .then(() => {
-          console.log("Document successfully written");
-          return gameCode;
-        })
-        .catch((error) => {
-          console.error("Error writing document: ", error);
-          throw error;
-        });
-      }
+    <script src="./db.js">
+      
     </script>
   </body>
   
