@@ -1,14 +1,3 @@
-var firebaseConfig = {
-  apiKey: "AIzaSyDyzev87Bk6FESwHVQEDyqmQfYKFWkE-kg",
-  authDomain: "pairingmates.firebaseapp.com",
-  databaseURL: "https://pairingmates.firebaseio.com",
-  projectId: "pairingmates",
-  storageBucket: "pairingmates.appspot.com",
-  messagingSenderId: "957422010140",
-  appId: "1:957422010140:web:822dcc0a21af3cb7b004d9"
-};
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 test();
 async function test(){
